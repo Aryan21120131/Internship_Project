@@ -1,12 +1,15 @@
 package com.example.internship_project;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -45,6 +48,7 @@ public class OfflineAdapter extends RecyclerView.Adapter<OfflineAdapter.ViewHold
             holder.log.setImageResource(R.drawable.offline);
         }
         holder.img.setImageResource(R.drawable.space_x_icon);
+        holder.menu.setVisibility(View.VISIBLE);
         holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +70,18 @@ public class OfflineAdapter extends RecyclerView.Adapter<OfflineAdapter.ViewHold
                         Toast.makeText(context, "Delete "+position+" item", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.UPDATE:
+                        Dialog update = new Dialog(context);
+                        update.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        update.setContentView(R.layout.activity_update);
+                        update.setCancelable(true);
+                        Button save=update.findViewById(R.id.save_update);
+                        save.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                update.cancel();
+                            }
+                        });
+                        update.show();
                         Toast.makeText(context, "Update "+position+" item", Toast.LENGTH_SHORT).show();
                         break;
                 }

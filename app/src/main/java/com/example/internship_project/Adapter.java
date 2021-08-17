@@ -56,6 +56,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holder> {
         Picasso.with(context)
                 .load(post.getImage())
                 .into(holder.img);
+        holder.menu.setVisibility(View.INVISIBLE);
 //        UserModel userModel=new UserModel();
 //        userModel.setName(post.getName());
 //        DatabaseClass.getDatabase(context.getApplicationContext()).getDao().deleteMember(userModel);
@@ -70,6 +71,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holder> {
 
         ImageView img,log;
         TextView name,agen,wiki;
+        Button menu;
 
         public holder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +80,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holder> {
             agen=itemView.findViewById(R.id.card_agency);
             wiki=itemView.findViewById(R.id.card_wikipedia);
             log=itemView.findViewById(R.id.card_status);
+            menu=itemView.findViewById(R.id.menu);
         }
     }
 }

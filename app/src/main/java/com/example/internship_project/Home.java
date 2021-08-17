@@ -43,36 +43,40 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        if(isOnline()) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.spacexdata.com/v4/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+        setData();
+    }
 
-            JSONPlaceholder jsonPlaceholder = retrofit.create(JSONPlaceholder.class);
-            Call<List<Post>> call = jsonPlaceholder.getPost();
-            call.enqueue(new Callback<List<Post>>() {
-                @Override
-                public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                    List<Post> postList = response.body();
-                    Adapter adapter = new Adapter(getApplicationContext(), postList);
-                    recyclerView.setAdapter(adapter);
-                    if(DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().isEmpty()) {
-                        for (int i = 0; i < postList.size(); i++) {
-                            UserModel model = new UserModel();
-                            model.setName(postList.get(i).getName());
-                            model.setAgency(postList.get(i).getAgency());
-                            model.setStatus(postList.get(i).getStatus());
-                            model.setWikipedia(postList.get(i).getWikipedia());
-                            model.setId(postList.get(i).getId());
-                            model.setImage(postList.get(i).getImage());
-                            DatabaseClass.getDatabase(Home.this).getDao().insertAllData(model);
-                            Toast.makeText(Home.this, "Data Saved "+i+"th index", Toast.LENGTH_SHORT).show();
-                        }
+    private void setData() {
+        if(isOnline()) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.spacexdata.com/v4/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JSONPlaceholder jsonPlaceholder = retrofit.create(JSONPlaceholder.class);
+        Call<List<Post>> call = jsonPlaceholder.getPost();
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                List<Post> postList = response.body();
+                Adapter adapter = new Adapter(getApplicationContext(), postList);
+                recyclerView.setAdapter(adapter);
+                if(DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().isEmpty()) {
+                    for (int i = 0; i < postList.size(); i++) {
+                        UserModel model = new UserModel();
+                        model.setName(postList.get(i).getName());
+                        model.setAgency(postList.get(i).getAgency());
+                        model.setStatus(postList.get(i).getStatus());
+                        model.setWikipedia(postList.get(i).getWikipedia());
+                        model.setId(postList.get(i).getId());
+                        model.setImage(postList.get(i).getImage());
+                        DatabaseClass.getDatabase(Home.this).getDao().insertAllData(model);
+                        Toast.makeText(Home.this, "Data Saved "+i+"th index", Toast.LENGTH_SHORT).show();
                     }
                 }
-                @Override
-                public void onFailure(Call<List<Post>> call, Throwable t) {
+            }
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
 
                 }
             });
