@@ -1,5 +1,6 @@
 package com.example.internship_project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,7 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
@@ -21,6 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Home extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    Button delete,update;
+    int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,12 @@ public class Home extends AppCompatActivity {
         hook();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         isOnline();
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         if(isOnline()) {
             Retrofit retrofit = new Retrofit.Builder()
@@ -44,8 +57,20 @@ public class Home extends AppCompatActivity {
                     List<Post> postList = response.body();
                     Adapter adapter = new Adapter(getApplicationContext(), postList);
                     recyclerView.setAdapter(adapter);
+                    if(DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().isEmpty()) {
+                        for (int i = 0; i < postList.size(); i++) {
+                            UserModel model = new UserModel();
+                            model.setName(postList.get(i).getName());
+                            model.setAgency(postList.get(i).getAgency());
+                            model.setStatus(postList.get(i).getStatus());
+                            model.setWikipedia(postList.get(i).getWikipedia());
+                            model.setId(postList.get(i).getId());
+                            model.setImage(postList.get(i).getImage());
+                            DatabaseClass.getDatabase(Home.this).getDao().insertAllData(model);
+                            Toast.makeText(Home.this, "Data Saved "+i+"th index", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-
                 @Override
                 public void onFailure(Call<List<Post>> call, Throwable t) {
 
@@ -53,6 +78,8 @@ public class Home extends AppCompatActivity {
             });
         }
         else {
+            OfflineAdapter offlineAdapter=new OfflineAdapter(getApplicationContext(),DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData());
+            recyclerView.setAdapter(offlineAdapter);
             Toast.makeText(Home.this, "OFFLINE !!!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -69,8 +96,9 @@ public class Home extends AppCompatActivity {
             return false;
         }
     }
-
     private void hook() {
         recyclerView=findViewById(R.id.recycler_view);
+        delete=findViewById(R.id.delete_home);
+        update=findViewById(R.id.update_home);
     }
 }

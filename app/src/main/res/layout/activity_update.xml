@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="#929292"
+    tools:context=".UpdateActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginBottom="375dp"
         app:cardBackgroundColor="#666666"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
@@ -20,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,14 +30,15 @@
             android:background="#D0E3E3E3">
 
             <ImageView
-                android:id="@+id/card_image"
+                android:id="@+id/image_update"
                 android:layout_width="150dp"
-                android:layout_height="200dp"
+                android:layout_height="230dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/card_name"
+                app:layout_constraintEnd_toStartOf="@+id/name_update"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="NotSibling"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <LinearLayout
@@ -46,11 +48,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/card_image"
+                app:layout_constraintStart_toEndOf="@+id/image_update"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/card_name"
+                <EditText
+                    android:id="@+id/name_update"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="10dp"
@@ -61,8 +63,8 @@
                     android:layout_weight="1"
                     android:text="TextView" />
 
-                <TextView
-                    android:id="@+id/card_agency"
+                <EditText
+                    android:id="@+id/agency_update"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="10dp"
@@ -73,8 +75,8 @@
                     android:layout_weight="1"
                     android:text="TextView" />
 
-                <TextView
-                    android:id="@+id/card_wikipedia"
+                <EditText
+                    android:id="@+id/wikipedia_update"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="10dp"
@@ -84,31 +86,28 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:text="TextView" />
-
-                <ImageView
-                    android:id="@+id/card_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/offline" />
 
                 <Button
-                    android:id="@+id/menu"
-                    android:layout_width="40dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="right"
+                    android:id="@+id/save_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/menu_"
-                    android:gravity="right" />
+                    android:text="SAVE" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/spacex_logo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

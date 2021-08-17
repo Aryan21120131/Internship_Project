@@ -1,11 +1,18 @@
 package com.example.internship_project;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.holder> {
 
     Context context;
     List<Post> postList;
-
 
     public Adapter(Context context, List<Post> postList)
     {
@@ -35,20 +42,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.holder holder, int position) {
+    public void onBindViewHolder(@NonNull Adapter.holder holder, @SuppressLint("RecyclerView") int position) {
         Post post=postList.get(position);
         holder.name.setText(post.getName());
         holder.wiki.setText(post.getWikipedia());
         holder.agen.setText(post.getAgency());
-        if(!post.getStatus().equals("active")){
-            holder.log.setImageResource(R.drawable.offline);
+        if(post.getStatus().equals("active")){
+            holder.log.setImageResource(R.drawable.online);
         }
         else{
-            holder.log.setImageResource(R.drawable.online);
+            holder.log.setImageResource(R.drawable.offline);
         }
         Picasso.with(context)
                 .load(post.getImage())
                 .into(holder.img);
+//        UserModel userModel=new UserModel();
+//        userModel.setName(post.getName());
+//        DatabaseClass.getDatabase(context.getApplicationContext()).getDao().deleteMember(userModel);
     }
 
     @Override
@@ -63,11 +73,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holder> {
 
         public holder(@NonNull View itemView) {
             super(itemView);
-            img=(ImageView)itemView.findViewById(R.id.card_image);
-            name=(TextView)itemView.findViewById(R.id.card_name);
-            agen=(TextView)itemView.findViewById(R.id.card_agency);
-            wiki=(TextView)itemView.findViewById(R.id.card_wikipedia);
-            log=(ImageView)itemView.findViewById(R.id.card_status);
+            img=itemView.findViewById(R.id.card_image);
+            name=itemView.findViewById(R.id.card_name);
+            agen=itemView.findViewById(R.id.card_agency);
+            wiki=itemView.findViewById(R.id.card_wikipedia);
+            log=itemView.findViewById(R.id.card_status);
         }
     }
 }
