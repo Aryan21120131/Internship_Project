@@ -2,14 +2,12 @@ package com.example.internship_project;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -70,19 +68,22 @@ public class OfflineAdapter extends RecyclerView.Adapter<OfflineAdapter.ViewHold
                         Toast.makeText(context, "Delete "+position+" item", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.UPDATE:
-                        Dialog update = new Dialog(context);
-                        update.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        update.setContentView(R.layout.activity_update);
-                        update.setCancelable(true);
-                        Button save=update.findViewById(R.id.save_update);
-                        save.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                update.cancel();
-                            }
-                        });
-                        update.show();
-                        Toast.makeText(context, "Update "+position+" item", Toast.LENGTH_SHORT).show();
+//                        AlertDialog update=new AlertDialog.Builder(context)
+//                                .setTitle("UPDATE")
+//                                .setMessage("Update the given crew member details")
+//                                .setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        Toast.makeText(context, "SAVED", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }).setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        Toast.makeText(context, "CALCLED", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }).create();
+//                        update.show(
+                        Toast.makeText(context, "Currently Update function is not available", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return false;

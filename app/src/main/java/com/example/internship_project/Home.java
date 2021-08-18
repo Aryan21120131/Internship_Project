@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -26,8 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Home extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    Button delete,update;
     int size;
+    SwipeRefreshLayout refreshLayout;
+    Button delete_all,update_and_delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +38,36 @@ public class Home extends AppCompatActivity {
         hook();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         isOnline();
-        delete.setOnClickListener(new View.OnClickListener() {
+        setData();
+
+        delete_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                while (!DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().isEmpty()){
+                    DatabaseClass.getDatabase(getApplicationContext()).getDao().deleteCrew(DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().get(0));
+                }
+                Toast.makeText(Home.this, "Deleted all data from room database !!!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        setData();
+
+        update_and_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                while (!DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().isEmpty()){
+                    DatabaseClass.getDatabase(getApplicationContext()).getDao().deleteCrew(DatabaseClass.getDatabase(getApplicationContext()).getDao().getAllData().get(0));
+                }
+                setData();
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setData();
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void setData() {
@@ -102,7 +126,8 @@ public class Home extends AppCompatActivity {
     }
     private void hook() {
         recyclerView=findViewById(R.id.recycler_view);
-        delete=findViewById(R.id.delete_home);
-        update=findViewById(R.id.update_home);
+        refreshLayout=findViewById(R.id.refresh_layout);
+        delete_all=findViewById(R.id.delete_all);
+        update_and_delete=findViewById(R.id.update_all);
     }
 }
